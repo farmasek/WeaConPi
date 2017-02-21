@@ -1,0 +1,23 @@
+{
+  "name": "WeaConPi",
+  "version": "1.0.0",
+  "description": "Project demonstrating interesting technologies on real life example",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npm run build:live",
+    "build:live": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^7.0.5",
+    "nodemon": "^1.11.0",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.1.6"
+  },
+  "dependencies": {
+    "@types/express": "^4.0.35",
+    "express": "^4.14.1"
+  }
+}
