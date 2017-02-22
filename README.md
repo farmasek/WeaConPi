@@ -6,7 +6,6 @@ This project is setup for future QraphQL project.
 
 - [x] Create Node + express + Typescript setup
 - [x] Schedule, api fetch PoC
-- [ ] Add Editor config
-- [ ] Add ts linter ?
+- [x] Add Editor config
 - [ ] Mongoose PoC
 - [ ] GraphQL PoC
