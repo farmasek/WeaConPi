@@ -4,10 +4,11 @@
 import * as express from "express";
 import * as schedule from "node-schedule";
 import * as req from "request";
-
+import { GraphqlServer } from "./graphql/index";
 
 const app = express();
 const PORT = 1000;
+const PORTQRAPHQLSERVICE = 2000;
 
 const getUsersGithubInfo = (user: string, callback) => {
   req.get(`https://api.github.com/users/${user}`,
@@ -30,4 +31,8 @@ app.listen(PORT, () => {
     console.log('hello from scheduledJob')
   );
   console.log(`Start is up and running on localhost:${PORT}`)
+});
+
+GraphqlServer.listen(PORTQRAPHQLSERVICE, () => {
+  console.log(`QraphQL is up and running on localhost:${PORTQRAPHQLSERVICE}`)
 });
