@@ -10,6 +10,8 @@ This project is setup for future QraphQL project.
     - Typescript
     - Express js
     - GraphQL - Apollo-server
+    - MongoDB
+    - Mongoose
 
 ---
 
@@ -21,5 +23,6 @@ This project is setup for future QraphQL project.
 - [x] Schedule, api fetch PoC
 - [x] Add Editor config
 - [x] GraphQL PoC
-- [ ] Mongoose PoC
+- [x] Mongoose PoC
+- [ ] CRUD manipulations with DB, nested models
 - [ ] Weather API microservice

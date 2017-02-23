@@ -5,7 +5,7 @@ import * as express from "express";
 import * as schedule from "node-schedule";
 import * as req from "request";
 import { GraphqlServer } from "./graphql/index";
-
+import { fillDB } from "./repository/index";
 const app = express();
 const PORT = 1000;
 const PORTQRAPHQLSERVICE = 2000;
@@ -24,10 +24,15 @@ app.get('/find-me-on-github/:user', (request, response) => {
 `));
 
 });
+app.get('/trigger', async (request, response) => {
+  const inserted = await fillDB();
+  console.log('Attempt to fill database')
+  console.log(inserted)
+});
 
 
 app.listen(PORT, () => {
-  const scheduled = schedule.scheduleJob('1 * * * * *', () =>
+  const scheduled = schedule.scheduleJob('* 30 * * * *', () =>
     console.log('hello from scheduledJob')
   );
   console.log(`Start is up and running on localhost:${PORT}`)
