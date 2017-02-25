@@ -6,11 +6,19 @@ import resolvers from "./resolvers";
 
 const schema = `
 type Weather{
-  name: String
-  kek:String
+  temperature: String
+  date:String
+}
+type Hour{
+  hour: Int,
+  currentWeather:Weather
+  predictedWeather:Weather
+  predictedValues:String
 }
 type Query {
   weathers: [Weather]
+  hour:[Hour]
+  modifiedHours:[Hour]
 }
 `;
 export default makeExecutableSchema({typeDefs: schema, resolvers})
