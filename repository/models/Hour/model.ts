@@ -5,14 +5,26 @@ import { mongoose } from "../../database";
 import { Schema, Model, Document } from "mongoose";
 import { IWeather } from "../Weather/model";
 
-export interface IHour extends Document {
+export class HourC {
   hour: number;
   currentWeather: IWeather;
   predictedWeather: IWeather;
   predictedValues: string;
+
+
+  constructor(hour: number, currentWeather: IWeather, predictedWeather: IWeather, predictedValues: string) {
+    this.hour = hour;
+    this.currentWeather = currentWeather;
+    this.predictedWeather = predictedWeather;
+    this.predictedValues = predictedValues;
+  }
+}
+
+export interface IHour extends Document, HourC {
 }
 
 export interface IHourModel {
+  updateHourByHour(hourNumber: number, hour: IHour): Promise<{}>
   updateCurrentWeather(id: {}, currentWeather: IWeather): Promise<{}>
   updatePredictedWeather(id: {}, predictedWeather: IWeather): Promise<{}>
   updatePredictedValues(id: {}, values: string): Promise<{}>
@@ -21,7 +33,9 @@ export interface IHourModel {
 const schema = new Schema({
   hour: {
     type: Number,
-    required: true
+    required: true,
+    index: true,
+
   },
   currentWeather: {
     type: Schema.Types.Mixed,
@@ -38,7 +52,19 @@ const schema = new Schema({
 
 });
 
-
+schema.static("updateHourByHour", (hourNumber: number, hour: IHour) => {
+  return Hour
+    .update({
+      "hour": hourNumber
+    }, {
+      "$set": {
+        "currentWeather": hour.currentWeather,
+        "predictedWeather": hour.predictedWeather,
+        "predictedValues": hour.predictedValues,
+      }
+    })
+    .exec();
+});
 schema.static("updateCurrentWeather", (id: {}, currentWeather: IWeather) => {
   return Hour
     .update({

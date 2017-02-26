@@ -24,5 +24,5 @@ This project is setup for future QraphQL project.
 - [x] Add Editor config
 - [x] GraphQL PoC
 - [x] Mongoose PoC
-- [ ] CRUD manipulations with DB, nested models
+- [x] CRUD manipulations with DB, nested models
 - [ ] Weather API microservice

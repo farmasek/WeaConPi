@@ -17,5 +17,17 @@ export default {
       hours.map(hour => hour.hour = 56);
       return hours;
     }
+  },
+  Mutation: {
+    async insertHour(_, {hour}){
+      console.log(hour)
+      try {
+        const insertedHour = await Hour.create(hour);
+        return insertedHour;
+      }
+      catch (a) {
+        throw new Error("something went wrong " + a)
+      }
+    }
   }
 };
