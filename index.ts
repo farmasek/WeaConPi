@@ -7,6 +7,7 @@ import * as req from "request";
 import { GraphqlServer } from "./graphql/index";
 import { insertHour } from "./service/HourService";
 import { example } from "./datasourceexample";
+import { calculateExampleLSTM } from "./neural/index";
 const app = express();
 const PORT = 1000;
 const PORTQRAPHQLSERVICE = 2000;
@@ -25,12 +26,16 @@ app.get('/find-me-on-github/:user', (request, response) => {
 `));
 
 });
-app.get('/trigger', async (request, response) => {
+app.get('/trigger', async(request, response) => {
   console.log("trigger shall begun")
 
   const insertedThingy = await insertHour(example);
   console.log(insertedThingy)
   response.send(insertedThingy)
+});
+app.get('/trigger2', (request, response) => {
+  calculateExampleLSTM()
+  response.send("hello")
 });
 
 

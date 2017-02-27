@@ -8,10 +8,11 @@ This project is setup for future QraphQL project.
 - Server
     - Node JS
     - Typescript
-    - Express js
+    - Express JS
     - GraphQL - Apollo-server
     - MongoDB
-    - Mongoose
+    - Mongoose JS
+    - Synaptic JS
 
 ---
 
@@ -25,4 +26,7 @@ This project is setup for future QraphQL project.
 - [x] GraphQL PoC
 - [x] Mongoose PoC
 - [x] CRUD manipulations with DB, nested models
+- [x] Neural net Simple learning, basic PoC
+- [ ] Define prediction model
+- [ ] Generate training data
 - [ ] Weather API microservice
