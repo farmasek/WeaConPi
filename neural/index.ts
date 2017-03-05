@@ -59,14 +59,13 @@ export const calculateExampleLSTM = () => {
   console.log('learning started');
 
   const lastKnown = fs.readFileSync('neuraldata.json', 'utf8');
-  console.log(lastKnown)
   let weaconPiBrain = new LSTM(6, 20, 3);
 
   if (lastKnown) {
     // weaconPiBrain = Network.fromJSON(lastKnown);
   }
 
-  let trainer = new Trainer(Network.fromJSON(lastKnown));
+  let trainer = new Trainer(weaconPiBrain);
 
   trainer.train(trainingSetMarch, {
     iterations: 10,
@@ -74,8 +73,20 @@ export const calculateExampleLSTM = () => {
     error: .0005,
     log: 100
   });
+
   const partiallytrained = weaconPiBrain.toJSON();
-  fs.writeFileSync('neuraldata.json', JSON.stringify(partiallytrained), 'utf8');
+  fs.writeFileSync('neuraldata.json', JSON.stringify(partiallytrained));
+  let saved = JSON.parse(fs.readFileSync('neuraldata.json','utf8'));
+
+  console.log('round 2')
+  let trainer2 = new Trainer(Network.fromJSON(saved));
+
+  trainer2.train(trainingSetMarch, {
+    iterations: 10,
+    rate: 0.2,
+    error: .0005,
+    log: 100
+  });
 
   console.log(weaconPiBrain.activate([0.01, 0.03, 0.2016, 0, 0.099, 0.12]));
 }
