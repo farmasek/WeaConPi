@@ -1,4 +1,10 @@
-import { Architect, Trainer } from "synaptic";
+import { Architect, Trainer, Network } from "synaptic";
+import { trainingSetMarch } from "./learning-data/test-trainingset";
+import fs = require('fs')
+import bodyParser = require("body-parser");
+import json = bodyParser.json;
+import LSTM = Architect.LSTM;
+
 /**
  * Created by Farmas on 27.02.2017.
  */
@@ -49,19 +55,27 @@ export const calculateExampleLSTM = () => {
   }];
 
 
-  let algorithmLSTM = new Architect.LSTM(1, 5, 1);
+  // let algorithmLSTM = new Architect.LSTM(6, 20, 3);
+  console.log('learning started');
 
-  let trainer = new Trainer(algorithmLSTM);
-  trainer.train(trainingSet, {
-    iterations: 100000,
-    rate: 0.1,
-    shuffle: true,
-    error: .00005,
-    log: 1000
+  const lastKnown = fs.readFileSync('neuraldata.json', 'utf8');
+  console.log(lastKnown)
+  let weaconPiBrain = new LSTM(6, 20, 3);
+
+  if (lastKnown) {
+    // weaconPiBrain = Network.fromJSON(lastKnown);
+  }
+
+  let trainer = new Trainer(Network.fromJSON(lastKnown));
+
+  trainer.train(trainingSetMarch, {
+    iterations: 10,
+    rate: 0.2,
+    error: .0005,
+    log: 100
   });
-  console.log(algorithmLSTM.activate([.11]))
-  console.log(algorithmLSTM.activate([.05]))
-  console.log(algorithmLSTM.activate([.1]))
-  console.log(algorithmLSTM.activate([.2]))
-  console.log(algorithmLSTM.activate([.03]))
+  const partiallytrained = weaconPiBrain.toJSON();
+  fs.writeFileSync('neuraldata.json', JSON.stringify(partiallytrained), 'utf8');
+
+  console.log(weaconPiBrain.activate([0.01, 0.03, 0.2016, 0, 0.099, 0.12]));
 }
