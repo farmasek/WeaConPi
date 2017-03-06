@@ -1,92 +1,39 @@
+/// <reference path="../node_modules/@types/node/index.d.ts" />
+
 import { Architect, Trainer, Network } from "synaptic";
 import { trainingSetMarch } from "./learning-data/test-trainingset";
-import fs = require('fs')
-import bodyParser = require("body-parser");
-import json = bodyParser.json;
 import LSTM = Architect.LSTM;
+import NeuralPersist from "./neuralPersistance";
 
 /**
  * Created by Farmas on 27.02.2017.
  */
 
 export const calculateExampleLSTM = () => {
-  const trainingSet = [{
-    input: [.05],
-    output: [.10]
-  }, {
-    input: [.2],
-    output: [.4],
-  }, {
-    input: [.1],
-    output: [.2],
-  }, {
-    input: [.05],
-    output: [.1],
-  }, {
-    input: [.50],
-    output: [1],
-  }, {
-    input: [.200],
-    output: [.400],
-  }, {
-    input: [.8],
-    output: [.16],
-  }, {
-    input: [.50],
-    output: [1],
-  }, {
-    input: [.200],
-    output: [.400],
-  }, {
-    input: [.8],
-    output: [.16],
-  }, {
-    input: [.50],
-    output: [1],
-  }, {
-    input: [.200],
-    output: [.400],
-  }, {
-    input: [.8],
-    output: [.16],
-  }, {
-    input: [.11],
-    output: [.22],
-  }];
 
-
-  // let algorithmLSTM = new Architect.LSTM(6, 20, 3);
   console.log('learning started');
 
-  const lastKnown = fs.readFileSync('neuraldata.json', 'utf8');
-  let weaconPiBrain = new LSTM(6, 20, 3);
+  const lastKnown = new NeuralPersist().readFile();
 
-  if (lastKnown) {
-    // weaconPiBrain = Network.fromJSON(lastKnown);
+  let weaconPiBrain;
+
+  if (!lastKnown) {
+    console.log('No network found, creating new')
+    weaconPiBrain = new LSTM(6, 20, 3);
+  } else {
+    console.log('Network found, reusing')
+    weaconPiBrain = Network.fromJSON(lastKnown);
   }
-
-  let trainer = new Trainer(weaconPiBrain);
+  let trainer = new Trainer(weaconPiBrain)
 
   trainer.train(trainingSetMarch, {
-    iterations: 10,
+    iterations: 2000,
     rate: 0.2,
     error: .0005,
     log: 100
   });
 
-  const partiallytrained = weaconPiBrain.toJSON();
-  fs.writeFileSync('neuraldata.json', JSON.stringify(partiallytrained));
-  let saved = JSON.parse(fs.readFileSync('neuraldata.json','utf8'));
-
-  console.log('round 2')
-  let trainer2 = new Trainer(Network.fromJSON(saved));
-
-  trainer2.train(trainingSetMarch, {
-    iterations: 10,
-    rate: 0.2,
-    error: .0005,
-    log: 100
-  });
-
+  new NeuralPersist().persistFile(weaconPiBrain);
   console.log(weaconPiBrain.activate([0.01, 0.03, 0.2016, 0, 0.099, 0.12]));
 }
+
