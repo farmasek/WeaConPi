@@ -1,9 +1,8 @@
 /// <reference path="../node_modules/@types/node/index.d.ts" />
-
 import { Architect, Trainer, Network } from "synaptic";
-import { trainingSetMarch } from "./learning-data/test-trainingset";
-import LSTM = Architect.LSTM;
+import { trainingSetApril } from "./learning-data/test-trainingset";
 import NeuralPersist from "./neuralPersistance";
+import LSTM = Architect.LSTM;
 
 /**
  * Created by Farmas on 27.02.2017.
@@ -26,7 +25,7 @@ export const calculateExampleLSTM = () => {
   }
   let trainer = new Trainer(weaconPiBrain)
 
-  trainer.train(trainingSetMarch, {
+  trainer.train(trainingSetApril, {
     iterations: 2000,
     rate: 0.2,
     error: .0005,
