@@ -1,6 +1,6 @@
 /// <reference path="../node_modules/@types/node/index.d.ts" />
 import { Architect, Trainer, Network } from "synaptic";
-import { mayTrainingSet } from "./learning-data/test-trainingset";
+import { mayTrainingSet, AllTrainingData } from "./learning-data/test-trainingset";
 import NeuralPersist from "./neuralPersistance";
 import LSTM = Architect.LSTM;
 
@@ -25,7 +25,7 @@ export const calculateExampleLSTM = () => {
   }
   let trainer = new Trainer(weaconPiBrain)
 
-  trainer.train(mayTrainingSet, {
+  trainer.train(AllTrainingData, {
     iterations: 2000,
     rate: 0.2,
     error: .0005,
@@ -37,7 +37,7 @@ export const calculateExampleLSTM = () => {
   console.log(weaconPiBrain.activate([0.02, 0.03, 0.2016, 0.07, 0.102, 0.23]));
 
   console.log('11/5/2016 - 7h, should be tmb w[0] - 0 | b [1] - 1 | heat [2] - 10')
-  console.log(weaconPiBrain.activate( [0.11, 0.05, 0.2016, 0.11, 0.123, 0.23]));
+  console.log(weaconPiBrain.activate([0.11, 0.05, 0.2016, 0.11, 0.123, 0.23]));
 
   console.log('14/4/2016 - 13h, should be tmb w[0] - 0 | b [1] - 1 | heat [2] - 80')
   console.log(weaconPiBrain.activate([0.14, 0.04, 0.2016, 0.13, 0.112, 0.23]));
