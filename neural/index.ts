@@ -18,18 +18,19 @@ export const calculateExampleLSTM = () => {
 
   if (!lastKnown) {
     console.log('No network found, creating new')
-    weaconPiBrain = new LSTM(6, 20, 3);
+    weaconPiBrain = new LSTM(6, 9, 9, 9, 9, 3);
   } else {
     console.log('Network found, reusing')
     weaconPiBrain = Network.fromJSON(lastKnown);
   }
   let trainer = new Trainer(weaconPiBrain)
 
-  trainer.train(AllTrainingData, {
-    iterations: 2000,
+  trainer.train(mayTrainingSet, {
+    iterations: 20000,
+    shuffle: true,
     rate: 0.2,
-    error: .0005,
-    log: 100
+    error: .005,
+    log: 1000
   });
 
   new NeuralPersist().persistFile(weaconPiBrain);
