@@ -1,3 +1,5 @@
+import { Network, Architect } from "synaptic";
+import LSTM = Architect.LSTM;
 export default class NeuralPersist {
   private path = require('path');
 
@@ -21,6 +23,19 @@ export default class NeuralPersist {
       return JSON.parse(this.fs.readFileSync(this.address, 'utf8'));
     } catch (e) {
       return false;
+    }
+  }
+
+  public static getNet(): Network {
+
+    const lastKnown = new NeuralPersist().readFile();
+
+    if (lastKnown) {
+      console.log('Network found.');
+      const network = Network.fromJSON(lastKnown);
+      return network;
+    } else {
+      throw new Error("No network found");
     }
   }
 }
